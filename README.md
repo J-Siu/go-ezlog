@@ -211,6 +211,8 @@ type LogFunc func(msg *string)
 
 - v1.0.0
   - Initial commit
+- v1.0.1
+  - Add Level.String()
 
 ### License
 
