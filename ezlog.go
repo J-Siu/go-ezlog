@@ -111,7 +111,9 @@ func (e *ezlog) Clear() *ezlog {
 // --- Output
 
 func (e *ezlog) Out() *ezlog {
-	e.outFunc(e.StringP())
+	if e.msgLogLevel <= e.logLevel {
+		e.outFunc(e.StringP())
+	}
 	return e
 }
 
@@ -119,14 +121,16 @@ func (e *ezlog) String() string { return *e.StringP() }
 
 func (e *ezlog) StringP() *string {
 	str := ""
-	if e.strBuf != nil {
-		// str = strings.Join(l.strBuf, " ")
-		for _, s := range e.strBuf {
-			_, size := utf8.DecodeLastRuneInString(str)
-			if size > 0 && str[len(str)-size] != '\n' {
-				str += " "
+	if e.msgLogLevel <= e.logLevel {
+		if e.strBuf != nil {
+			// str = strings.Join(l.strBuf, " ")
+			for _, s := range e.strBuf {
+				_, size := utf8.DecodeLastRuneInString(str)
+				if size > 0 && str[len(str)-size] != '\n' {
+					str += " "
+				}
+				str += s
 			}
-			str += s
 		}
 	}
 	return &str

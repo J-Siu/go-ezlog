@@ -156,6 +156,8 @@ type LogFunc func(msg *string)
   - Add package level functions
 - v2.1.1
   - Fix mod version
+- v2.1.2
+  - Fix output
 
 ### License
 
