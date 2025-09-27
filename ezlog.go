@@ -213,7 +213,10 @@ func (e *ezlog) Trace() *ezlog {
 
 var log = New()
 
-func New() *ezlog { return new(ezlog).New() }
+func New() *ezlog {
+	StrAny.IndentEnable(true)
+	return new(ezlog).New()
+}
 
 // Set all log func to use fmt.Print()
 func SetOutPrint() *ezlog { return log.SetOutPrint() }

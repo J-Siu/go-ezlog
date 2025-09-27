@@ -158,6 +158,8 @@ type LogFunc func(msg *string)
   - Fix mod version
 - v2.1.2
   - Fix output
+- v2.1.3
+  - Default `StrAny.IndentEnable(true)`
 
 ### License
 
