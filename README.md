@@ -1,8 +1,9 @@
 # ezlog
 
-A simple log mapping module with Linux log level:
+A simple log module with Linux log level:
 
-- (-1 Disable)
+- (-2) LogLevel // Not exactly a log level. It is for logging regardless of log level
+- (-1) Disabled
 0. Emerg
 1. Alert
 2. Crit
@@ -13,170 +14,106 @@ A simple log mapping module with Linux log level:
 7. Debug
 8. Trace
 
-## FUNCTIONS
+## Installation
 
-### Send Log
-```go
-func Alert(msg string)
+```sh
+go get github.com/J-Siu/go-ezlog
 ```
-Send ALERT
 
-```go
-func AlertP(msg *string)
-```
-Send ALERT
+## Example
 
 ```go
-func Crit(msg string)
-```
-Send CRIT
+package main
 
-```go
-func CritP(msg *string)
-```
-Send CRIT
+import (
+  "fmt"
 
-```go
-func Debug(msg string)
-```
-Send DEBUG
+  "github.com/J-Siu/go-ezlog"
+)
 
-```go
-func DebugP(msg *string)
-```
-Send DEBUG
+type NUM struct {
+  I     int
+  I8    int8
+  I16   int16
+  I32   int32
+  I64   int64
+  UI    uint
+  UI8   uint8
+  UI16  uint16
+  UI32  uint32
+  UI64  uint64
+  F32   float32
+  F64   float64
+  PI    *int
+  PI8   *int8
+  PI16  *int16
+  PI32  *int32
+  PI64  *int64
+  PUI   *uint
+  PUI8  *uint8
+  PUI16 *uint16
+  PUI32 *uint32
+  PUI64 *uint64
+  PF32  *float32
+  PF64  *float64
+}
 
-```go
-func Emerg(msg string)
-```
-Send EMERG
+func (N *NUM) New() *NUM {
+  N.I = 255
+  N.I8 = 127
+  N.I16 = 255
+  N.I32 = 255
+  N.I64 = 255
+  N.UI = 255
+  N.UI8 = 255
+  N.UI16 = 255
+  N.UI32 = 255
+  N.UI64 = 255
+  N.F32 = 100.00000002
+  N.F64 = 100.00000001
+  N.PI = &N.I
+  N.PI8 = &N.I8
+  N.PI16 = &N.I16
+  N.PI32 = &N.I32
+  N.PI64 = &N.I64
+  N.PUI = &N.UI
+  N.PUI8 = &N.UI8
+  N.PUI16 = &N.UI16
+  N.PUI32 = &N.UI32
+  N.PUI64 = &N.UI64
+  N.PF32 = &N.F32
+  N.PF64 = &N.F64
+  return N
+}
 
-```go
-func EmergP(msg *string)
-```
-Send EMERG
+func main() {
+  var (
+    log         = ezlog.New().SetLogLevel(ezlog.DebugLevel)
+    N           = new(NUM).New()
+    f32 float32 = 100.000001
+    f64 float64 = 100.000001
+    str string
+  )
 
-```go
-func Err(msg string)
-```
-Send ERR
+  ezlog.StrAny.IndentEnable(true)
+  fmt.Println("--- ezlog")
+  log.Log().
+    MsgLn(true).
+    MsgLn(int16(-9910)).
+    Name("0.008").MsgLn(float32(0.008)).
+    Name("&f32").MsgLn(&f32).
+    Name("&f64").MsgLn(&f64).
+    MsgLn(uint64(199999999999)).
+    Name("N").Ln().MsgLn(N).
+    Name("&N").Ln().Msg(&N).
+    Out()
 
-```go
-func ErrP(msg *string)
-```
-Send ERR
+  str = log.String()
 
-```go
-func Info(msg string)
+  fmt.Println("--- println")
+  fmt.Println(str)
+}
 ```
-Send INFO
-
-```go
-func InfoP(msg *string)
-```
-Send Info
-
-```go
-func Msg(msg string)
-```
-Send Message without log level control
-
-```go
-func MsgP(msg *string)
-```
-Send Message without log level control
-
-```go
-func Notice(msg string)
-```
-Send NOTICE
-
-```go
-func NoticeP(msg *string)
-```
-Send Notice
-
-### Set Log Functions
-
-```go
-func SetAlert(f LogFunc)
-```
-SetALERT logging func
-
-```go
-func SetAllPrintln()
-```
-Set all log func to use fmt.Println()
-
-```go
-func SetCrit(f LogFunc)
-```
-SetCRIT logging func
-
-```go
-func SetDebug(f LogFunc)
-```
-SetDEBUG logging func
-
-```go
-func SetEmerg(f LogFunc)
-```
-SetEMERG logging func
-
-```go
-func SetErr(f LogFunc)
-```
-SetERR logging func
-
-```go
-func SetInfo(f LogFunc)
-```
-SetINFO logging func
-
-```go
-func SetLogLevel(level Level)
-```
-Setlog level
-
-```go
-func SetMsg(f LogFunc)
-```
-SetMsg func
-
-```go
-func SetNotice(f LogFunc)
-```
-SetNOTICE logging func
-
-```go
-func SetTrace(f LogFunc)
-```
-SetTRACE logging func
-
-```go
-func SetWarning(f LogFunc)
-```
-SetWARNING logging func
-
-```go
-func Trace(msg string)
-```
-Send TRACE
-
-```go
-func TraceP(msg *string)
-```
-Send TRACE
-
-```go
-func Warning(msg string)
-```
-Send WARNING
-
-```go
-func WarningP(msg *string)
-```
-Send WARNING
 
 ## TYPES
 
@@ -213,6 +150,8 @@ type LogFunc func(msg *string)
   - Initial commit
 - v1.0.1
   - Add Level.String()
+- v2.0.0
+  - Use [go-strany](https://github.com/J-Siu/go-strany)
 
 ### License
 
