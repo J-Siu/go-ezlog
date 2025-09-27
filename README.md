@@ -152,6 +152,8 @@ type LogFunc func(msg *string)
   - Add Level.String()
 - v2.0.0
   - Use [go-strany](https://github.com/J-Siu/go-strany)
+- v2.1.0
+  - Add package level functions
 
 ### License
 

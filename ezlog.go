@@ -222,3 +222,44 @@ func GetLogLevel() Level { return log.GetLogLevel() }
 
 // Set log level
 func SetLogLevel(level Level) *ezlog { return log.SetLogLevel(level) }
+
+func Log() *ezlog {
+	log.Clear().msgLogLevel = LogLevel
+	return log
+}
+func Emerg() *ezlog {
+	log.Clear().msgLogLevel = EmergLevel
+	return log
+}
+func Alert() *ezlog {
+	log.Clear().msgLogLevel = AlertLevel
+	return log
+}
+func Crit() *ezlog {
+	log.Clear().msgLogLevel = CritLevel
+	return log
+}
+func Err() *ezlog {
+	log.Clear().msgLogLevel = ErrLevel
+	return log
+}
+func Warning() *ezlog {
+	log.Clear().msgLogLevel = WarningLevel
+	return log
+}
+func Notice() *ezlog {
+	log.Clear().msgLogLevel = NoticeLevel
+	return log
+}
+func Info() *ezlog {
+	log.Clear().msgLogLevel = InfoLevel
+	return log
+}
+func Debug() *ezlog {
+	log.Clear().msgLogLevel = DebugLevel
+	return log
+}
+func Trace() *ezlog {
+	log.Clear().msgLogLevel = TraceLevel
+	return log
+}
