@@ -17,7 +17,7 @@ A simple log module with Linux log level:
 ## Installation
 
 ```sh
-go get github.com/J-Siu/go-ezlog
+go get github.com/J-Siu/go-ezlog/v2
 ```
 
 ## Example
@@ -28,7 +28,7 @@ package main
 import (
   "fmt"
 
-  "github.com/J-Siu/go-ezlog"
+  "github.com/J-Siu/go-ezlog/v2"
 )
 
 type NUM struct {
@@ -154,6 +154,8 @@ type LogFunc func(msg *string)
   - Use [go-strany](https://github.com/J-Siu/go-strany)
 - v2.1.0
   - Add package level functions
+- v2.1.1
+  - Fix mod version
 
 ### License
 

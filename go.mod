@@ -1,4 +1,4 @@
-module github.com/J-Siu/go-ezlog
+module github.com/J-Siu/go-ezlog/v2
 
 go 1.25.1
 

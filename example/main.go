@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/J-Siu/go-ezlog"
+	"github.com/J-Siu/go-ezlog/v2"
 )
 
 type NUM struct {
