@@ -70,7 +70,6 @@ func main() {
 		str string
 	)
 
-	ezlog.StrAny.IndentEnable(true)
 	fmt.Println("--- ezlog")
 	log.Log().
 		MsgLn(true).

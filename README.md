@@ -1,5 +1,7 @@
 # ezlog
 
+> Deprecated: This project is now merged into [go-helper](github.com/J-Siu/go-helper) ezlog.
+
 A simple log module with Linux log level:
 
 - (-2) LogLevel // Not exactly a log level. It is for logging regardless of log level
@@ -95,7 +97,6 @@ func main() {
     str string
   )
 
-  ezlog.StrAny.IndentEnable(true)
   fmt.Println("--- ezlog")
   log.Log().
     MsgLn(true).
@@ -160,6 +161,8 @@ type LogFunc func(msg *string)
   - Fix output
 - v2.1.3
   - Default `StrAny.IndentEnable(true)`
+- v2.1.4
+  - Use "github.com/J-Siu/go-helper/v2/strany"
 
 ### License
 

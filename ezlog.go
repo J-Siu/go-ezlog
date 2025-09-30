@@ -32,13 +32,13 @@ THE SOFTWARE.
 //  7. Info
 //  8. Debug
 //  9. Trace
+//
+// Deprecated: This project is now merged into [go-helper](github.com/J-Siu/go-helper) under ezlog.
 package ezlog
 
 import (
 	"fmt"
 	"unicode/utf8"
-
-	"github.com/J-Siu/go-strany"
 )
 
 type Level int8
@@ -58,73 +58,72 @@ const (
 	TraceLevel
 )
 
-var (
-	StrAny = strany.New()
-)
-
 type OutFunc func(msg *string)
 
 type ezlog struct {
+	StrAny      *strany.Any
 	logLevel    Level
 	msgLogLevel Level
 	outFunc     OutFunc
 	strBuf      []string
 }
 
-func (e *ezlog) New() *ezlog {
-	e.SetOutPrintLn()
-	return e
+func (ez *ezlog) New() *ezlog {
+	ez.StrAny = strany.New().IndentEnable(true)
+	ez.SetLogLevel(ErrLevel)
+	ez.SetOutPrintLn()
+	return ez
 }
 
-func (e *ezlog) SetOutFunc(f OutFunc) *ezlog {
-	e.outFunc = f
-	return e
-}
-
-// Set out
-func (e *ezlog) SetOutPrint() *ezlog {
-	e.SetOutFunc(func(str *string) { fmt.Print(*str) })
-	return e
+func (ez *ezlog) SetOutFunc(f OutFunc) *ezlog {
+	ez.outFunc = f
+	return ez
 }
 
 // Set out
-func (e *ezlog) SetOutPrintLn() *ezlog {
-	e.SetOutFunc(func(str *string) { fmt.Println(*str) })
-	return e
+func (ez *ezlog) SetOutPrint() *ezlog {
+	ez.SetOutFunc(func(str *string) { fmt.Print(*str) })
+	return ez
+}
+
+// Set out
+func (ez *ezlog) SetOutPrintLn() *ezlog {
+	ez.SetOutFunc(func(str *string) { fmt.Println(*str) })
+	return ez
 }
 
 // Set log level
-func (e *ezlog) SetLogLevel(level Level) *ezlog {
-	e.logLevel = level
-	return e
+func (ez *ezlog) SetLogLevel(level Level) *ezlog {
+	ez.logLevel = level
+	return ez
 }
 
 // Get log level
-func (e *ezlog) GetLogLevel() Level { return e.logLevel }
+func (ez *ezlog) GetLogLevel() Level { return ez.logLevel }
 
 // Clear message
-func (e *ezlog) Clear() *ezlog {
-	e.strBuf = nil
-	return e
+func (ez *ezlog) Clear() *ezlog {
+	ez.strBuf = nil
+	return ez
 }
 
 // --- Output
 
-func (e *ezlog) Out() *ezlog {
-	if e.msgLogLevel <= e.logLevel {
-		e.outFunc(e.StringP())
+func (ez *ezlog) Out() *ezlog {
+	if ez.msgLogLevel <= ez.logLevel {
+		ez.outFunc(ez.StringP())
 	}
-	return e
+	return ez
 }
 
-func (e *ezlog) String() string { return *e.StringP() }
+func (ez *ezlog) String() string { return *ez.StringP() }
 
-func (e *ezlog) StringP() *string {
+func (ez *ezlog) StringP() *string {
 	str := ""
-	if e.msgLogLevel <= e.logLevel {
-		if e.strBuf != nil {
+	if ez.msgLogLevel <= ez.logLevel {
+		if ez.strBuf != nil {
 			// str = strings.Join(l.strBuf, " ")
-			for _, s := range e.strBuf {
+			for _, s := range ez.strBuf {
 				_, size := utf8.DecodeLastRuneInString(str)
 				if size > 0 && str[len(str)-size] != '\n' {
 					str += " "
@@ -139,74 +138,74 @@ func (e *ezlog) StringP() *string {
 // --- Build log message
 
 // Add msg to log
-func (e *ezlog) Msg(data any) *ezlog {
-	if e.msgLogLevel <= e.logLevel {
-		e.strBuf = append(e.strBuf, StrAny.Str(data))
+func (ez *ezlog) Msg(data any) *ezlog {
+	if ez.msgLogLevel <= ez.logLevel {
+		ez.strBuf = append(ez.strBuf, ez.StrAny.Str(data))
 	}
-	return e
+	return ez
 }
 
 // Add separator to message
-func (e *ezlog) Sp(data any) *ezlog {
-	if e.msgLogLevel <= e.logLevel {
-		e.strBuf[len(e.strBuf)-1] = e.strBuf[len(e.strBuf)-1] + StrAny.Str(data)
+func (ez *ezlog) Sp(data any) *ezlog {
+	if ez.msgLogLevel <= ez.logLevel {
+		ez.strBuf[len(ez.strBuf)-1] = ez.strBuf[len(ez.strBuf)-1] + ez.StrAny.Str(data)
 	}
-	return e
+	return ez
 }
 
 // Add newline to message
-func (e *ezlog) Ln() *ezlog { return e.Msg("\n") }
+func (ez *ezlog) Ln() *ezlog { return ez.Msg("\n") }
 
 // Log on new line
-func (e *ezlog) MsgLn(data any) *ezlog { return e.Msg(data).Ln() }
+func (ez *ezlog) MsgLn(data any) *ezlog { return ez.Msg(data).Ln() }
 
 // Add : after data
-func (e *ezlog) Name(data any) *ezlog { return e.Msg(data).Sp(":") }
+func (ez *ezlog) Name(data any) *ezlog { return ez.Msg(data).Sp(":") }
 
 // Add : and newline after data
-func (e *ezlog) NameLn(data any) *ezlog { return e.Name(data).Ln() }
+func (ez *ezlog) NameLn(data any) *ezlog { return ez.Name(data).Ln() }
 
 // -- Set log message level
 
-func (e *ezlog) Log() *ezlog {
-	e.Clear().msgLogLevel = LogLevel
-	return e
+func (ez *ezlog) Log() *ezlog {
+	ez.Clear().msgLogLevel = LogLevel
+	return ez
 }
-func (e *ezlog) Emerg() *ezlog {
-	e.Clear().msgLogLevel = EmergLevel
-	return e
+func (ez *ezlog) Emerg() *ezlog {
+	ez.Clear().msgLogLevel = EmergLevel
+	return ez
 }
-func (e *ezlog) Alert() *ezlog {
-	e.Clear().msgLogLevel = AlertLevel
-	return e
+func (ez *ezlog) Alert() *ezlog {
+	ez.Clear().msgLogLevel = AlertLevel
+	return ez
 }
-func (e *ezlog) Crit() *ezlog {
-	e.Clear().msgLogLevel = CritLevel
-	return e
+func (ez *ezlog) Crit() *ezlog {
+	ez.Clear().msgLogLevel = CritLevel
+	return ez
 }
-func (e *ezlog) Err() *ezlog {
-	e.Clear().msgLogLevel = ErrLevel
-	return e
+func (ez *ezlog) Err() *ezlog {
+	ez.Clear().msgLogLevel = ErrLevel
+	return ez
 }
-func (e *ezlog) Warning() *ezlog {
-	e.Clear().msgLogLevel = WarningLevel
-	return e
+func (ez *ezlog) Warning() *ezlog {
+	ez.Clear().msgLogLevel = WarningLevel
+	return ez
 }
-func (e *ezlog) Notice() *ezlog {
-	e.Clear().msgLogLevel = NoticeLevel
-	return e
+func (ez *ezlog) Notice() *ezlog {
+	ez.Clear().msgLogLevel = NoticeLevel
+	return ez
 }
-func (e *ezlog) Info() *ezlog {
-	e.Clear().msgLogLevel = InfoLevel
-	return e
+func (ez *ezlog) Info() *ezlog {
+	ez.Clear().msgLogLevel = InfoLevel
+	return ez
 }
-func (e *ezlog) Debug() *ezlog {
-	e.Clear().msgLogLevel = DebugLevel
-	return e
+func (ez *ezlog) Debug() *ezlog {
+	ez.Clear().msgLogLevel = DebugLevel
+	return ez
 }
-func (e *ezlog) Trace() *ezlog {
-	e.Clear().msgLogLevel = TraceLevel
-	return e
+func (ez *ezlog) Trace() *ezlog {
+	ez.Clear().msgLogLevel = TraceLevel
+	return ez
 }
 
 // ---
@@ -214,7 +213,6 @@ func (e *ezlog) Trace() *ezlog {
 var log = New()
 
 func New() *ezlog {
-	StrAny.IndentEnable(true)
 	return new(ezlog).New()
 }
 
