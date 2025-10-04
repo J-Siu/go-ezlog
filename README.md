@@ -1,6 +1,6 @@
 # ezlog
 
-> Deprecated: This project is now merged into [go-helper](github.com/J-Siu/go-helper) ezlog.
+> Deprecated: This project is now merged into [go-helper/v2](https://github.com/J-Siu/go-helper) ezlog.
 
 A simple log module with Linux log level:
 
